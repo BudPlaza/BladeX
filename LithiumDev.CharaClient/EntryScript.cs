@@ -1,4 +1,4 @@
-﻿using CitizenFX.Core;
+using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using System;
 using System.Collections.Generic;
@@ -16,6 +16,7 @@ namespace LithiumDev.CharaClient
     {
         private bool _staminaDisplayed;
         private InteractionMenu _menu;
+        private int _uploadInterval = 25000;
 
         internal static bool IsOp { get; private set; }
 
@@ -82,6 +83,16 @@ namespace LithiumDev.CharaClient
             if ((Game.Player.Character.IsRunning || Game.Player.Character.IsSprinting) && Game.Player.RemainingSprintStamina < 0f)
             {
                 Game.Player.Character.HealthFloat -= 0.03f;
+            }
+
+            if (_uploadInterval > 0)
+            {
+                _uploadInterval--;
+            }
+            else
+            {
+                _uploadInterval = 25000;
+                TriggerServerEvent("chara:gamedataUpdate", Game.Player.Handle, Game.PlayerPed.Health, Game.PlayerPed.Armor);
             }
 
             return Task.FromResult(0);

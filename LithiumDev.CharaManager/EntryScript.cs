@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LithiumDev.CharaManager.Users;
+using LithiumDev.CharaManager.UserData;
 
 namespace LithiumDev.CharaManager
 {
@@ -18,8 +19,6 @@ namespace LithiumDev.CharaManager
 
         private void ChatMessage(string playerSrc, string player, string msg)
         {
-            Debug.WriteLine("received " + msg + " from " + playerSrc + " by " + player);
-
             if (ManagementProcess.DisabledCommands.Contains(msg))
             {
                 Debug.WriteLine("contains msg");
@@ -52,8 +51,15 @@ namespace LithiumDev.CharaManager
 
             EventHandlers["playerJoining"] += new Action<Player, string>(PlayerJoin);
             EventHandlers["chatMessage"] += new Action<string, string, string>(ChatMessage);
+            EventHandlers["chara:gamedataUpdate"] += new Action<int, int, int>(UpdateData);
 
             RegisterCommand("op", new Action<int>(SetAsOp), true);
+        }
+
+        private void UpdateData(int playerHandle, int health, int armor)
+        {
+            var player = GetPlayerFromIndex(playerHandle);
+            NbtUtil.SaveGameDataForPlayer(GetPlayerIdentifier(player, 0), health, armor);
         }
 
         internal void SetAsOp(int fivemId)

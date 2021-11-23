@@ -12,6 +12,7 @@ namespace LithiumDev.CharaManager.UserData
         internal const string UserDataFolder = @"C:\Programs\Servers\FiveM\UserData";
 
         internal static readonly string OperatorsFile = GetDataPath("ops.json");
+        internal static readonly string PlayerDataFolder = GetDataPath(@"saves\playerdata\");
 
         static UserDataUtil()
         {
@@ -19,5 +20,6 @@ namespace LithiumDev.CharaManager.UserData
         }
 
         internal static string GetDataPath(string path) => Path.Combine(UserDataFolder, path);
+        internal static string GetPlayerDataFilePath(string id) => Path.Combine(PlayerDataFolder, $"{id}.dat");
     }
 }

@@ -45,6 +45,7 @@
     <Compile Include="EntryScript.cs" />
     <Compile Include="ManagementProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserData\NbtUtil.cs" />
     <Compile Include="UserData\Structs\OperatorsList.cs" />
     <Compile Include="UserData\UserDataUtil.cs" />
     <Compile Include="Users\Permission.cs" />
