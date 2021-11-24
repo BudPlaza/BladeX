@@ -16,7 +16,8 @@ namespace LithiumDev.CharaClient
     {
         private bool _staminaDisplayed;
         private InteractionMenu _menu;
-        private int _uploadInterval = 25000;
+        private int _uploadInterval = 120000;
+        private const int _uploadTotal = 120000;
 
         internal static bool IsOp { get; private set; }
 
@@ -85,16 +86,17 @@ namespace LithiumDev.CharaClient
                 Game.Player.Character.HealthFloat -= 0.03f;
             }
 
+#if SERVER_AUTHORITY_SYNC
             if (_uploadInterval > 0)
             {
                 _uploadInterval--;
             }
             else
             {
-                _uploadInterval = 25000;
+                _uploadInterval = _uploadTotal;
                 TriggerServerEvent("chara:gamedataUpdate", Game.Player.Handle, Game.PlayerPed.Health, Game.PlayerPed.Armor);
             }
-
+#endif
             return Task.FromResult(0);
         }
 
