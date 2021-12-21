@@ -15,6 +15,7 @@ using log4net.Config;
 using log4net;
 using System.IO;
 using Newtonsoft.Json;
+using CitizenFX.Core.Native;
 
 namespace BudPlaza.BladeX
 {
@@ -37,6 +38,13 @@ namespace BudPlaza.BladeX
 
         private void PlayerJoin([FromSource] Player player, string oldId)
         {
+            if (string.IsNullOrWhiteSpace(player.Identifiers["fivem"]))
+            {
+                _log.InfoFormat("Dropped player {0} because they are not logged in", player.Handle);
+                player.Drop("Cfx.re account ID not found, which this server uses to uniquely identify you. Log your client into your Cfx.re account before entering the server.");
+                return;
+            }
+
             ManagementProcess.RegisterJoinedPlayer(player);
             _log.InfoFormat("Player {0} with ID {1} joined with endpoint {2} (src {3})", player.Name, player.Identifiers["fivem"], player.EndPoint, player.Handle);
             TriggerClientEvent(player, "bladex:displayWelcomeMessage");
@@ -58,15 +66,32 @@ namespace BudPlaza.BladeX
             EventHandlers["chatMessage"] += new Action<string, string, string>(ChatMessage);
             EventHandlers["bladex:gamedataUpdate"] += new Action<int, int, int>(UpdateData);
             EventHandlers["baseevents:onPlayerDied"] += new Action<int, float[]>(OnPlayerDied);
-            EventHandlers["bladex:clientInquireVessel"] += new Action<int>(ClientInquireVessel);
+            EventHandlers["bladex:clientInquireVessel"] += new Action<Player>(ClientInquireVessel);
+            EventHandlers["bladex:characterCreation"] += new Action<Player>(CreatorAdd);
 
             RegisterCommand("op", new Action<int>(SetAsOp), true);
         }
 
-        private void ClientInquireVessel(int obj)
+        private void CreatorAdd([FromSource] Player obj)
         {
-            _log.Info($"Client #{obj} is inquring for an vessel.");
-            
+            SetPlayerModel(obj.Handle, (uint)GetHashKey("mp_f_freemode_01"));
+            obj.Character.IsPositionFrozen = false;
+            obj.Character.Heading = 331;
+            obj.TriggerEvent("bladex:creationGoAhead");
+        }
+
+        private void ClientInquireVessel([FromSource] Player player)
+        {
+            _log.Info($"Client #{player.Handle} is inquring for an vessel.");
+
+            var data = AccountDataUtil.CreateIfNotExist(player);
+            if (!data.HasVessel || data.Vessel == null)
+            {
+                player.TriggerEvent("bladex:vesselResponse", false);
+                return;
+            }
+
+            player.TriggerEvent("bladex:vesselResponse", true);
         }
 
         private void OnPlayerDied(int pType, float[] coords)

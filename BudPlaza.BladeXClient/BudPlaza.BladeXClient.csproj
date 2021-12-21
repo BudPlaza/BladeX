@@ -44,6 +44,7 @@
     <Compile Include="Commands\CommandRegistry.cs" />
     <Compile Include="EntryScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ui\CharactorCreatorMenu.cs" />
     <Compile Include="Ui\InteractionMenu.cs" />
     <Compile Include="Util\Chat.cs" />
     <Compile Include="Util\LScreen.cs" />

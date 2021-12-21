@@ -2,6 +2,7 @@
 // Copyright (C) 2021, 2022 BudPlaza project & contributors.
 // Licensed under GNU AGPL v3 or any later version; see COPYING for information.
 
+using BudPlaza.BladeX.UserData;
 using CitizenFX.Core;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,8 @@ namespace BudPlaza.BladeX
         internal static void RegisterJoinedPlayer(Player player)
         {
             _players.Add(player);
+
+            AccountDataUtil.CreateIfNotExist(player);
         }
     }
 }
