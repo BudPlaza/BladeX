@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LithiumDev.CharaManager", "LithiumDev.CharaManager\LithiumDev.CharaManager.csproj", "{A83DF8DD-9632-4259-9E7F-8D2960712449}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudPlaza.BladeX", "BudPlaza.BladeX\BudPlaza.BladeX.csproj", "{A83DF8DD-9632-4259-9E7F-8D2960712449}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LithiumDev.CharaClient", "LithiumDev.CharaClient\LithiumDev.CharaClient.csproj", "{C421FE83-819F-498A-8510-8CD71201D499}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudPlaza.BladeXClient", "BudPlaza.BladeXClient\BudPlaza.BladeXClient.csproj", "{C421FE83-819F-498A-8510-8CD71201D499}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LithiumDev.CharaShared", "LithiumDev.CharaShared\LithiumDev.CharaShared.csproj", "{02398196-3DC4-438D-AA00-962E54A59352}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudPlaza.BladeCore", "BudPlaza.BladeCore\BudPlaza.BladeCore.csproj", "{02398196-3DC4-438D-AA00-962E54A59352}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{970EF6E0-C980-4930-8FB6-89B2C1696614}"
 	ProjectSection(SolutionItems) = preProject

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{02398196-3DC4-438D-AA00-962E54A59352}</ProjectGuid>
+    <ProjectGuid>{C421FE83-819F-498A-8510-8CD71201D499}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LithiumDev.CharaShared</RootNamespace>
-    <AssemblyName>LithiumDev.CharaShared</AssemblyName>
+    <RootNamespace>BudPlaza.BladeX.Client</RootNamespace>
+    <AssemblyName>BladeXClient.net</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\resRelease\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -41,8 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ShopItems.cs" />
+    <Compile Include="Commands\CommandRegistry.cs" />
+    <Compile Include="EntryScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ui\InteractionMenu.cs" />
+    <Compile Include="Util\Chat.cs" />
+    <Compile Include="Util\LScreen.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CitizenFX.Core.Client">
+      <Version>1.0.4980</Version>
+    </PackageReference>
+    <PackageReference Include="LemonUI.FiveM">
+      <Version>1.5.1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

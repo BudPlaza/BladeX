@@ -7,8 +7,8 @@
     <ProjectGuid>{A83DF8DD-9632-4259-9E7F-8D2960712449}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LithiumDev.CharaManager</RootNamespace>
-    <AssemblyName>LithiumDev.CharaManager.net</AssemblyName>
+    <RootNamespace>BudPlaza.BladeX</RootNamespace>
+    <AssemblyName>BladeX.net</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authority\Server.cs" />
     <Compile Include="EntryScript.cs" />
     <Compile Include="ManagementProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,5 +68,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

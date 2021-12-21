@@ -9,6 +9,7 @@ using CitizenFX.Core.UI;
 using LithiumDev.CharaClient.Commands;
 using LithiumDev.CharaClient.Util;
 using LithiumDev.CharaClient.Ui;
+using System.Runtime.InteropServices;
 
 namespace LithiumDev.CharaClient
 {
@@ -18,6 +19,10 @@ namespace LithiumDev.CharaClient
         private InteractionMenu _menu;
         private int _uploadInterval = 120000;
         private const int _uploadTotal = 120000;
+        private static bool _mi;
+        private static bool _prevMi;
+        private static int _miCooldown;
+        private static int _miTimeout;
 
         internal static bool IsOp { get; private set; }
 
@@ -57,6 +62,12 @@ namespace LithiumDev.CharaClient
             Debug.WriteLine("Registering commands");
             CommandRegistry.RegisterCommands();
 
+            Debug.WriteLine("Disabling client authority ambience");
+            SetPedPopulationBudget(0);
+            SetVehiclePopulationBudget(0);
+
+            StatSetInt((uint)GetHashKey("BANK_BALANCE"), 500, true);
+
             _menu = new InteractionMenu();
 
             Tick += EntryScript_Tick;
@@ -65,10 +76,44 @@ namespace LithiumDev.CharaClient
         private Task EntryScript_Tick()
         {
             _menu.Update();
+            if (_miCooldown > 0) _miCooldown--;
+            if (_miTimeout > 0)
+            {
+                _miTimeout--;
+            }
+            else if (_mi)
+            {
+                _mi = false;
+            }
 
             if (Game.IsControlPressed(0, Control.InteractionMenu))
             {
                 _menu.OpenOrClose();
+            }
+
+            if (Game.IsControlPressed(0, Control.MultiplayerInfo) && _miCooldown == 0)
+            {
+                _mi = !_mi;
+                _miCooldown = 75;
+                _miTimeout = 150;
+            }
+
+            if (_mi && !_prevMi)
+            {
+                N_0x170f541e1cadd1de(true);
+                SetMultiplayerWalletCash();
+                SetMultiplayerBankCash();
+                N_0x170f541e1cadd1de(false);
+                SetBigmapActive(true, false);
+                _prevMi = true;
+            }
+
+            if (!_mi && _prevMi)
+            {
+                RemoveMultiplayerWalletCash();
+                RemoveMultiplayerBankCash();
+                SetBigmapActive(false, false);
+                _prevMi = false;
             }
 
             if ((Game.Player.Character.IsRunning || Game.Player.Character.IsSprinting) && Game.Player.RemainingSprintStamina < 0.03f && !_staminaDisplayed)
