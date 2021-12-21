@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LithiumDev.CharaManager.Users;
-using LithiumDev.CharaManager.UserData;
+using BudPlaza.BladeX.Users;
+using BudPlaza.BladeX.UserData;
 
-namespace LithiumDev.CharaManager
+namespace BudPlaza.BladeX
 {
     public class EntryScript : BaseScript
     {

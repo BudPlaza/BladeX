@@ -1,5 +1,5 @@
 ﻿using CitizenFX.Core;
-using LithiumDev.CharaClient.Util;
+using BudPlaza.BladeXClient.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static CitizenFX.Core.Native.API;
 
-namespace LithiumDev.CharaClient.Commands
+namespace BudPlaza.BladeXClient.Commands
 {
     internal static class CommandRegistry
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LithiumDev.CharaManager.UserData.Structs
+namespace BudPlaza.BladeX.UserData.Structs
 {
     internal struct OperatorsList
     {

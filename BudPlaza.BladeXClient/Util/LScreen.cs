@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using static CitizenFX.Core.Native.API;
 
-namespace LithiumDev.CharaClient.Util
+namespace BudPlaza.BladeXClient.Util
 {
     internal static class LScreen
     {

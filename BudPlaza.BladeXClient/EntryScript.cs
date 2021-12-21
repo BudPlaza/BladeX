@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CitizenFX.Core.UI;
-using LithiumDev.CharaClient.Commands;
-using LithiumDev.CharaClient.Util;
-using LithiumDev.CharaClient.Ui;
+using BudPlaza.BladeXClient.Commands;
+using BudPlaza.BladeXClient.Util;
+using BudPlaza.BladeXClient.Ui;
 using System.Runtime.InteropServices;
 
-namespace LithiumDev.CharaClient
+namespace BudPlaza.BladeXClient
 {
     public class EntryScript : BaseScript
     {

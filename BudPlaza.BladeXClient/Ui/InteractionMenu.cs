@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LithiumDev.CharaClient.Ui
+namespace BudPlaza.BladeXClient.Ui
 {
     internal class InteractionMenu
     {

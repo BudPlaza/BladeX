@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LithiumDev.CharaManager.UserData
+namespace BudPlaza.BladeX.UserData
 {
     internal static class UserDataUtil
     {

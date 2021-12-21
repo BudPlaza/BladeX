@@ -1,5 +1,5 @@
-﻿using LithiumDev.CharaManager.UserData;
-using LithiumDev.CharaManager.UserData.Structs;
+﻿using BudPlaza.BladeX.UserData;
+using BudPlaza.BladeX.UserData.Structs;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LithiumDev.CharaManager.Users
+namespace BudPlaza.BladeX.Users
 {
     internal static class Permission
     {

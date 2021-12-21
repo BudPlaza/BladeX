@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LithiumDev.CharaClient.Util
+namespace BudPlaza.BladeXClient.Util
 {
     internal static class Chat
     {
