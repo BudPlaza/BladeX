@@ -1,4 +1,8 @@
-﻿using BudPlaza.BladeX.UserData;
+﻿// Blade™ Server X
+// Copyright (C) 2021, 2022 BudPlaza project & contributors.
+// Licensed under GNU AGPL v3 or any later version; see COPYING for information.
+
+using BudPlaza.BladeX.UserData;
 using BudPlaza.BladeX.UserData.Structs;
 using Newtonsoft.Json;
 using System;

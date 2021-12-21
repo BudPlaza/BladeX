@@ -1,4 +1,8 @@
-﻿using CitizenFX.Core;
+// Blade™ Client for Grand Theft Auto V (MP)
+// (C) BudPlaza & contributors
+// See COPYING for more information
+
+using CitizenFX.Core;
 using BudPlaza.BladeXClient.Util;
 using System;
 using System.Collections.Generic;

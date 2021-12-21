@@ -1,3 +1,7 @@
+// Blade™ Client for Grand Theft Auto V (MP)
+// (C) BudPlaza & contributors
+// See COPYING for more information
+
 using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 using System;

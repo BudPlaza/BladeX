@@ -1,4 +1,8 @@
-﻿using System;
+// Blade™ Client for Grand Theft Auto V (MP)
+// (C) BudPlaza & contributors
+// See COPYING for more information
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

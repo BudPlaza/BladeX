@@ -43,7 +43,8 @@ namespace BudPlaza.BladeX
         {
             if (GetCurrentResourceName() != resName) return;
 
-            Debug.WriteLine("Initialized LithiumDev.bladexManager =)");
+            _log.Info("Blade™ server software for CitizenFX.re Servers (Grand Theft Auto V)");
+            _log.Info("Initializing");
             
             if (DateTime.Now.Month == 12 && DateTime.Now.Day == 21)
             {
