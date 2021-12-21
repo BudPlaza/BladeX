@@ -61,6 +61,7 @@ namespace BudPlaza.BladeXClient
             Debug.WriteLine("Registering events");
             EventHandlers["bladex:displayWelcomeMessage"] += new Action(DisplayWelcome);
             EventHandlers["bladex:sendMessage"] += new Action<string>(DisplayMsg);
+            EventHandlers["bladex:broadcast"] += new Action<string>(DisplayBroadcast);
             EventHandlers["bladex:permissionChange"] += new Action<bool>(PermissionChange);
 
             Debug.WriteLine("Registering commands");
@@ -71,12 +72,22 @@ namespace BudPlaza.BladeXClient
             SetPedPopulationBudget(0);
             SetVehiclePopulationBudget(0);
 #endif
+            Debug.WriteLine("Starting to load");
+            SwitchOutPlayer(Game.Player.Character.Handle, 0, 1);
+            BeginTextCommandBusyspinnerOn("MP_SPINLOADING");
+            EndTextCommandBusyspinnerOn((int)LoadingSpinnerType.RegularClockwise);
+            TriggerServerEvent("bladex:clientInquireVessel", Game.Player.ServerId);
 
             StatSetInt((uint)GetHashKey("BANK_BALANCE"), 500, true);
 
             _menu = new InteractionMenu();
 
             Tick += EntryScript_Tick;
+        }
+
+        private void DisplayBroadcast(string obj)
+        {
+            Screen.ShowNotification(obj);
         }
 
         private Task EntryScript_Tick()
@@ -97,7 +108,7 @@ namespace BudPlaza.BladeXClient
                 _menu.OpenOrClose();
             }
 
-            if (Game.IsControlPressed(0, Control.MultiplayerInfo) && _miCooldown == 0)
+            if (Game.IsControlPressed(0, Control.MultiplayerInfo) && _miCooldown == 0 && !IsPlayerSwitchInProgress())
             {
                 _mi = !_mi;
                 _miCooldown = 75;

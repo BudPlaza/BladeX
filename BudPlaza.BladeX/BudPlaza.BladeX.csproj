@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authority\Server.cs" />
+    <Compile Include="CitizenFxAppender.cs" />
     <Compile Include="EntryScript.cs" />
     <Compile Include="ManagementProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,7 +75,7 @@
     <None Include=".editorconfig" />
     <None Include="App.config" />
     <None Include="fxmanifest.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

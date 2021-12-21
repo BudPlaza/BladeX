@@ -13,6 +13,8 @@ using BudPlaza.BladeX.Users;
 using BudPlaza.BladeX.UserData;
 using log4net.Config;
 using log4net;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace BudPlaza.BladeX
 {
@@ -22,7 +24,8 @@ namespace BudPlaza.BladeX
 
         public EntryScript()
         {
-            XmlConfigurator.Configure();
+            XmlConfigurator.Configure(new FileInfo(UserDataUtil.GetDataPath("log4net.config")));
+
             _log = LogManager.GetLogger("main");
             EventHandlers["onServerResourceStart"] += new Action<string>(ServerResourcesStart);
         }
@@ -48,14 +51,27 @@ namespace BudPlaza.BladeX
             
             if (DateTime.Now.Month == 12 && DateTime.Now.Day == 21)
             {
-                Debug.WriteLine("Happy birthday WithLithum!");
+                
             }
 
             EventHandlers["playerJoining"] += new Action<Player, string>(PlayerJoin);
             EventHandlers["chatMessage"] += new Action<string, string, string>(ChatMessage);
             EventHandlers["bladex:gamedataUpdate"] += new Action<int, int, int>(UpdateData);
+            EventHandlers["baseevents:onPlayerDied"] += new Action<int, float[]>(OnPlayerDied);
+            EventHandlers["bladex:clientInquireVessel"] += new Action<int>(ClientInquireVessel);
 
             RegisterCommand("op", new Action<int>(SetAsOp), true);
+        }
+
+        private void ClientInquireVessel(int obj)
+        {
+            _log.Info($"Client #{obj} is inquring for an vessel.");
+            
+        }
+
+        private void OnPlayerDied(int pType, float[] coords)
+        {
+            TriggerClientEvent("bladex:broadcast", "oops someone died on " + pType);
         }
 
         private void UpdateData(int playerHandle, int health, int armor)
