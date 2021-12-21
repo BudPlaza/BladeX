@@ -1,4 +1,8 @@
-﻿using CitizenFX.Core;
+﻿// Blade™ Server X
+// Copyright (C) 2021, 2022 BudPlaza project & contributors.
+// Licensed under GNU AGPL v3 or any later version; see COPYING for information.
+
+using CitizenFX.Core;
 using System;
 using static CitizenFX.Core.Native.API;
 using System.Collections.Generic;
@@ -7,34 +11,31 @@ using System.Text;
 using System.Threading.Tasks;
 using BudPlaza.BladeX.Users;
 using BudPlaza.BladeX.UserData;
+using log4net.Config;
+using log4net;
 
 namespace BudPlaza.BladeX
 {
     public class EntryScript : BaseScript
     {
+        private readonly ILog _log;
+
         public EntryScript()
         {
+            XmlConfigurator.Configure();
+            _log = LogManager.GetLogger("main");
             EventHandlers["onServerResourceStart"] += new Action<string>(ServerResourcesStart);
         }
 
         private void ChatMessage(string playerSrc, string player, string msg)
         {
-            if (ManagementProcess.DisabledCommands.Contains(msg))
-            {
-                Debug.WriteLine("contains msg");
-            }
-
-            if (msg == "=)")
-            {
-                Debug.WriteLine("Sent smileface");
-                TriggerClientEvent("bladex:sendMessage", "=)");
-            }
+            // reserved
         }
 
         private void PlayerJoin([FromSource] Player player, string oldId)
         {
             ManagementProcess.RegisterJoinedPlayer(player);
-            Console.WriteLine($"Player {player.Name} joined with endpoint {player.EndPoint}");
+            _log.InfoFormat("Player {0} with ID {1} joined with endpoint {2} (src {3})", player.Name, player.Identifiers["fivem"], player.EndPoint, player.Handle);
             TriggerClientEvent(player, "bladex:displayWelcomeMessage");
         }
 

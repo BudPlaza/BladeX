@@ -51,7 +51,7 @@ namespace BudPlaza.BladeXClient
         {
             if (name != GetCurrentResourceName()) return;
 
-            Debug.WriteLine("BladeX™ Software for FiveM server");
+            Debug.WriteLine("BladeX™ Software for Microsoft Windows® Clients");
             Debug.WriteLine("Powered by CitizenFX.re");
 
             Debug.WriteLine("Registering events");
