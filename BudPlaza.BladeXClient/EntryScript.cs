@@ -51,20 +51,22 @@ namespace BudPlaza.BladeXClient
         {
             if (name != GetCurrentResourceName()) return;
 
-            Debug.WriteLine("LithiumDev CharaClient expiermental =)");
+            Debug.WriteLine("BladeX™ Software for FiveM server");
             Debug.WriteLine("Powered by CitizenFX.re");
 
             Debug.WriteLine("Registering events");
-            EventHandlers["chara:displayWelcomeMessage"] += new Action(DisplayWelcome);
-            EventHandlers["chara:sendMessage"] += new Action<string>(DisplayMsg);
-            EventHandlers["chara:permissionChange"] += new Action<bool>(PermissionChange);
+            EventHandlers["bladex:displayWelcomeMessage"] += new Action(DisplayWelcome);
+            EventHandlers["bladex:sendMessage"] += new Action<string>(DisplayMsg);
+            EventHandlers["bladex:permissionChange"] += new Action<bool>(PermissionChange);
 
             Debug.WriteLine("Registering commands");
             CommandRegistry.RegisterCommands();
 
+#if SERVER_AUTHORITY_SYNC
             Debug.WriteLine("Disabling client authority ambience");
             SetPedPopulationBudget(0);
             SetVehiclePopulationBudget(0);
+#endif
 
             StatSetInt((uint)GetHashKey("BANK_BALANCE"), 500, true);
 
@@ -139,7 +141,7 @@ namespace BudPlaza.BladeXClient
             else
             {
                 _uploadInterval = _uploadTotal;
-                TriggerServerEvent("chara:gamedataUpdate", Game.Player.Handle, Game.PlayerPed.Health, Game.PlayerPed.Armor);
+                TriggerServerEvent("bladex:gamedataUpdate", Game.Player.Handle, Game.PlayerPed.Health, Game.PlayerPed.Armor);
             }
 #endif
             return Task.FromResult(0);

@@ -27,7 +27,7 @@ namespace BudPlaza.BladeX
             if (msg == "=)")
             {
                 Debug.WriteLine("Sent smileface");
-                TriggerClientEvent("chara:sendMessage", "=)");
+                TriggerClientEvent("bladex:sendMessage", "=)");
             }
         }
 
@@ -35,14 +35,14 @@ namespace BudPlaza.BladeX
         {
             ManagementProcess.RegisterJoinedPlayer(player);
             Console.WriteLine($"Player {player.Name} joined with endpoint {player.EndPoint}");
-            TriggerClientEvent(player, "chara:displayWelcomeMessage");
+            TriggerClientEvent(player, "bladex:displayWelcomeMessage");
         }
 
         private void ServerResourcesStart(string resName)
         {
             if (GetCurrentResourceName() != resName) return;
 
-            Debug.WriteLine("Initialized LithiumDev.CharaManager =)");
+            Debug.WriteLine("Initialized LithiumDev.bladexManager =)");
             
             if (DateTime.Now.Month == 12 && DateTime.Now.Day == 21)
             {
@@ -51,7 +51,7 @@ namespace BudPlaza.BladeX
 
             EventHandlers["playerJoining"] += new Action<Player, string>(PlayerJoin);
             EventHandlers["chatMessage"] += new Action<string, string, string>(ChatMessage);
-            EventHandlers["chara:gamedataUpdate"] += new Action<int, int, int>(UpdateData);
+            EventHandlers["bladex:gamedataUpdate"] += new Action<int, int, int>(UpdateData);
 
             RegisterCommand("op", new Action<int>(SetAsOp), true);
         }

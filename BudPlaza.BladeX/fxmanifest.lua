@@ -2,14 +2,14 @@
 games { 'gta5' }
 
 author 'WithLithum <RelaperCrystal@163.com>'
-description 'CharaManager and Client'
+description 'bladexManager and Client'
 version '1.0.0'
 
 client_scripts {
-	"LithiumDev.CharaClient.net.dll",
+	"LithiumDev.bladexClient.net.dll",
 	"LemonUI.FiveM.net.dll"
 }
 
-server_script "LithiumDev.CharaManager.net.dll"
+server_script "LithiumDev.bladexManager.net.dll"
 
 dependency "chat"
