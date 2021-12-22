@@ -1,4 +1,8 @@
-﻿using CitizenFX.Core.Native;
+﻿// Blade™ Server X
+// Copyright (C) 2021, 2022 BudPlaza project & contributors.
+// Licensed under GNU AGPL v3 or any later version; see COPYING for information.
+
+using CitizenFX.Core.Native;
 using LiteDB;
 using System;
 using System.Collections.Generic;

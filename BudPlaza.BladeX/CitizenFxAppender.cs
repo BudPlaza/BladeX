@@ -8,7 +8,7 @@ namespace BudPlaza.BladeX
     {
         protected override void Append(LoggingEvent loggingEvent)
         {
-            Debug.Write(loggingEvent.RenderedMessage);
+            Debug.Write(this.RenderLoggingEvent(loggingEvent));
         }
     }
 }

@@ -45,6 +45,7 @@
     <Compile Include="Authority\Server.cs" />
     <Compile Include="CitizenFxAppender.cs" />
     <Compile Include="EntryScript.cs" />
+    <Compile Include="Events\ClientEventListener.cs" />
     <Compile Include="ManagementProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -61,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CitizenFX.Core.Server">
-      <Version>1.0.4980</Version>
+      <Version>1.0.5128</Version>
     </PackageReference>
     <PackageReference Include="fNbt">
       <Version>0.6.4</Version>

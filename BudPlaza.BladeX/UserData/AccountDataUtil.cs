@@ -1,4 +1,8 @@
-﻿using BudPlaza.BladeX.UserData.Structs;
+﻿// Blade™ Server X
+// Copyright (C) 2021, 2022 BudPlaza project & contributors.
+// Licensed under GNU AGPL v3 or any later version; see COPYING for information.
+
+using BudPlaza.BladeX.UserData.Structs;
 using CitizenFX.Core;
 using LiteDB;
 using log4net;
@@ -20,7 +24,13 @@ namespace BudPlaza.BladeX.UserData
 
         static AccountDataUtil()
         {
+            logger.Info($"Starting database on {dbPath}");
             database = new LiteDatabase(dbPath);
+        }
+
+        internal static void InitializeDb()
+        {
+            // Empty nullsub for static construction
         }
 
         public static PlayerData InitializeUser(Player player)
