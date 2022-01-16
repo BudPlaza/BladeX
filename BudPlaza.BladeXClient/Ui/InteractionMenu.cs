@@ -21,7 +21,7 @@ namespace BudPlaza.BladeXClient.Ui
         private Blip _requestedBlip;
 
         private int _counter;
-        private readonly ObjectPool _pool = new ObjectPool();
+        public static readonly ObjectPool PublicPool = new ObjectPool();
 
         private readonly NativeMenu _menu = new NativeMenu(Game.Player.Name, Game.GetGXTEntry("INPUT_INTERACTION_MENU"));
         private readonly NativeItem _itemSuicide = new NativeItem("Suicide", "Do you really wanna do this?");
@@ -30,7 +30,7 @@ namespace BudPlaza.BladeXClient.Ui
 
         internal InteractionMenu()
         {
-            _pool.Add(_menu);
+            PublicPool.Add(_menu);
             _menu.Add(_itemSuicide);
             _menu.Add(_itemRequestVehicle);
             _menu.Add(_itemGetCoords);
@@ -49,6 +49,7 @@ namespace BudPlaza.BladeXClient.Ui
 
         private void ItemRequestVehicle_Activated(object sender, EventArgs e)
         {
+            World.CreateRandomVehicle(Game.PlayerPed.GetOffsetPosition(Vector3.ForwardLH));
         }
 
         internal void Update()
@@ -70,7 +71,7 @@ namespace BudPlaza.BladeXClient.Ui
                 }
             }
 
-            _pool.Process();
+            PublicPool.Process();
         }
 
         internal void OpenOrClose()

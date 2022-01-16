@@ -15,6 +15,9 @@ using BudPlaza.BladeXClient.Util;
 using BudPlaza.BladeXClient.Ui;
 using System.Runtime.InteropServices;
 using LemonUI.Scaleform;
+using BudPlaza.BladeX.Client.Ui;
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "RCS1090:Add call to 'ConfigureAwait' (or vice versa).", Justification = "<Pending>")]
 
 namespace BudPlaza.BladeXClient
 {
@@ -30,10 +33,14 @@ namespace BudPlaza.BladeXClient
 
         private static string _alertTitle;
         private static string _alertDescription;
-        private static bool _drawAlert;
+        private bool _drawAlert;
         private static bool _creation;
 
         private static InstructionalButtons buttons;
+        private static CharactorCreatorMenu menu;
+
+        private readonly List<Ped> _maintainedPed = new List<Ped>();
+        private bool runing = false;
 
         internal static bool IsOp { get; private set; }
 
@@ -41,6 +48,72 @@ namespace BudPlaza.BladeXClient
         {
             EventHandlers["onClientResourceStart"] += new Action<string>(OnClientResourceStart);
             Util.Chat.Script = this;
+        }
+
+        public async Task Replacer()
+        {
+            if (runing) return;
+
+            runing = true;
+            foreach (var ped in World.GetAllPeds())
+            {
+                await Delay(200);
+
+                if (ped?.Exists() != true || ped.IsInVehicle())
+                {
+                    continue;
+                }
+
+                if (_maintainedPed.Count >= 15 && !ped.IsOnScreen && ped.Position.DistanceToSquared2D(Game.PlayerPed.Position) >= 150f)
+                {
+                    ped.Delete();
+                    continue;
+                }
+
+                if (!_maintainedPed.Contains(ped) && !ped.IsPlayer && ped.Model != PedHash.FreemodeFemale01 && !ped.IsPersistent && ped.IsAlive && !ped.IsInVehicle())
+                {
+                    var pos = ped.Position;
+                    var head = ped.Heading;
+
+                    var newPed = await World.CreatePed(PedHash.FreemodeFemale01, pos, head);
+                    if (newPed?.Exists() == true)
+                    {
+                        newPed.SetPedNewUnf();
+                        var rdm = new Random();
+                        SetPedHeadBlendData(newPed.Handle, rdm.Next(48), rdm.Next(48), rdm.Next(48), 0, 0, 0, 0.5f, 0f, 0f, false);
+                        _maintainedPed.Add(newPed);
+                        newPed.Task.WanderAround();
+                        newPed.Weapons.Give(WeaponHash.Pistol, 120, true, true);
+                    }
+
+                    ped.Delete();
+                }
+            }
+
+            for (var i = 0; i < _maintainedPed.Count; i++)
+            {
+                await Delay(200);
+
+                Ped ped;
+                try
+                {
+                    ped = _maintainedPed[i];
+                }
+                catch (Exception ex)
+                {
+                    continue;
+                }
+
+                if (ped?.Exists() != true || (!ped.IsOnScreen && ped.Position.DistanceToSquared2D(Game.PlayerPed.Position) >= 150f) || ped.Position.DistanceToSquared2D(Game.PlayerPed.Position) >= 550f)
+                {
+                    _maintainedPed.RemoveAt(i);
+                    if (ped?.Exists() == true)
+                    {
+                        ped.Delete();
+                    }
+                }
+            }
+            runing = false;
         }
 
         private void DisplayMsg(string text)
@@ -73,16 +146,14 @@ namespace BudPlaza.BladeXClient
             EventHandlers["bladex:broadcast"] += new Action<string>(DisplayBroadcast);
             EventHandlers["bladex:permissionChange"] += new Action<bool>(PermissionChange);
             EventHandlers["bladex:vesselResponse"] += new Action<bool>(VesselResponse);
-            EventHandlers["bladex:creationGoAhead"] += new Action(GoAheadCreation);
 
+            TriggerServerEvent("bladex:clientInquireVessel", Game.Player.ServerId.ToString());
             Debug.WriteLine("Registering commands");
             CommandRegistry.RegisterCommands();
 
-#if SERVER_AUTHORITY_SYNC
-            Debug.WriteLine("Disabling client authority ambience");
-            SetPedPopulationBudget(0);
-            SetVehiclePopulationBudget(0);
-#endif
+            SetPedPopulationBudget(2);
+            SetVehiclePopulationBudget(1);
+
             Debug.WriteLine("Starting to load");
             SwitchOutPlayer(Game.Player.Character.Handle, 0, 1);
 
@@ -98,34 +169,8 @@ namespace BudPlaza.BladeXClient
 
             this.Tick += EntryScript_Tick;
 
-            TriggerServerEvent("bladex:clientInquireVessel", Game.Player.ServerId.ToString());
-
             BeginTextCommandBusyspinnerOn("MP_SPINLOADING");
             EndTextCommandBusyspinnerOn((int)LoadingSpinnerType.RegularClockwise);
-        }
-
-        private async void GoAheadCreation()
-        {
-            var model = new Model(PedHash.FreemodeFemale01);
-            model.Request();
-
-            while (!model.IsLoaded) { }
-
-            await Game.Player.ChangeModel(model);
-            _creation = true;
-
-            model.MarkAsNoLongerNeeded();
-
-            SwitchInPlayer(Game.PlayerPed.Handle);
-
-            ClearInteriorForEntity(Game.PlayerPed.Handle);
-            BusyspinnerOff();
-            LScreen.DisplayHelp("You are about to create a character.", true, 3000);
-            Screen.Hud.IsVisible = false;
-            await Delay(1000);
-
-            SetEntityVisible(Game.PlayerPed.Handle, true, false);
-            SetPedRandomComponentVariation(Game.PlayerPed.Handle, false);
         }
 
         private void VesselResponse(bool obj)
@@ -151,38 +196,32 @@ namespace BudPlaza.BladeXClient
 
         private Task EntryScript_Tick()
         {
-            //if (_creation)
-            //{
-            //    Game.PlayerPed.IsVisible = true;
-            //    return Task.FromResult(0);
-            //}
+            if (Game.PlayerPed.Health < Game.PlayerPed.MaxHealth)
+            {
+                Game.PlayerPed.Health++;
+            }
+
+            if (_creation)
+            {
+                if (menu != null)
+                {
+                    return menu.Tick();
+                }
+
+                return Task.FromResult(0);
+            }
 
             if (_drawAlert)
             {
-                buttons?.Process();
+                Game.Player.ChangeModel(PedHash.FreemodeFemale01);
 
-                DisplayHelpTextThisFrame("BX_NOVES", false);
+                var rdm = new Random();
+                SetPedHeadBlendData(Game.PlayerPed.Handle, rdm.Next(48), rdm.Next(48), rdm.Next(48), 0, 0, 0, 0.5f, 0f, 0f, false);
+                Game.PlayerPed.SetPedNewUnf();
 
-                if (Game.IsControlJustPressed(0, Control.FrontendAccept))
-                {
-                    _drawAlert = false;
-                    SwitchInPlayer(Game.PlayerPed.Handle);
-                    LScreen.DisplayHelp("You are playing as a random vessel. The appearance will not be saved and clothing & accessories are unavailable.", true, 5000);
-                    buttons = null;
-                }
-
-                if (Game.IsControlJustPressed(0, Control.FrontendCancel))
-                {
-                    _drawAlert = false;
-                    Game.PlayerPed.Position = new Vector3(2535.243f, -383.799f, 92.993f);
-                    Game.PlayerPed.IsInvincible = true;
-                    Game.PlayerPed.IsPositionFrozen = true;
-                    BeginTextCommandBusyspinnerOn("MP_SPINLOADING");
-                    EndTextCommandBusyspinnerOn((int)LoadingSpinnerType.RegularClockwise);
-                    TriggerServerEvent("bladex:characterCreation", Game.Player.ServerId.ToString());
-
-                    buttons = null;
-                }
+                _drawAlert = false;
+                SwitchInPlayer(Game.PlayerPed.Handle);
+                LScreen.DisplayHelp("You are playing as a random vessel. To save this character, use Interaction Menu -> Appearance -> Save Vessel.", true, 5000);
 
                 return Task.FromResult(0);
             }
@@ -239,6 +278,10 @@ namespace BudPlaza.BladeXClient
                 TriggerServerEvent("bladex:gamedataUpdate", Game.Player.Handle, Game.PlayerPed.Health, Game.PlayerPed.Armor);
             }
 #endif
+
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            Replacer();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             return Task.FromResult(0);
         }
 

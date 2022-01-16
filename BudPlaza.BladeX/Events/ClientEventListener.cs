@@ -27,7 +27,7 @@ namespace BudPlaza.BladeX.Events
                 return;
             }
 
-            logger.Info($"Player {player.Name} (#{player.Handle}) with handshake <{oldId}> joined from endpoint {player.EndPoint} with ped {player.Character.Handle}");
+            logger.Info($"Player {player.Name} (#{player.Handle}) joined from endpoint {player.EndPoint}");
             ManagementProcess.RegisterJoinedPlayer(player);
         }
     }
