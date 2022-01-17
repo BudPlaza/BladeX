@@ -35,6 +35,6 @@ stages:
 build:
   stage: build
   script:
-    - sudo curl -o nug.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+    - curl -o nug.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
     - mono nug.exe restore
     - msbuild /p:Configuration="Release" /p:Platform="Any CPU"
