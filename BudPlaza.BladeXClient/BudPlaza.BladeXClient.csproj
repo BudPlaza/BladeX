@@ -41,18 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CommandRegistry.cs" />
+    <Compile Include="Entities\PlayerExtensions.cs" />
     <Compile Include="EntryScript.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Ui\CharactorCreatorMenu.cs" />
-    <Compile Include="Ui\InteractionMenu.cs" />
-    <Compile Include="Util\Chat.cs" />
-    <Compile Include="Util\LScreen.cs" />
+    <Compile Include="Spawning\SpawnUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CitizenFX.Core.Client">
       <Version>1.0.4980</Version>
+    </PackageReference>
+    <PackageReference Include="JetBrains.Annotations">
+      <Version>2021.3.0</Version>
     </PackageReference>
     <PackageReference Include="LemonUI.FiveM">
       <Version>1.5.1</Version>
